@@ -1,0 +1,34 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+func main(){
+	a := make(map[string]string)
+	input := bufio.NewScanner(os.Stdin)
+	fmt.Println(os.Getwd())
+	fmt.Println(input)
+	for input.Scan(){
+		f,err:= os.Open(input.Text())
+		if err == nil {
+			readLines(f,a)
+			f.Close()
+		}else{
+			fmt.Println(err)
+			fmt.Println("read file error")
+		}
+	}
+}
+
+func readLines(f *os.File ,a map[string]string ){
+	input := bufio.NewScanner(f)
+	for input.Scan(){
+		if a[input.Text()] != ""{
+			fmt.Printf("%s\t%s\t%s\n",a[input.Text()],f.Name(),"has same line")
+		}else{
+			a[input.Text()] = f.Name()
+		}
+	}
+}
